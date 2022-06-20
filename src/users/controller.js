@@ -72,8 +72,8 @@ const getUserById = (req, res) => {
  * 
  */
 const createUsers = (req, res) => {
-    const { pseudo, description } = req.body
-    pool.query(queries.createUser, [pseudo, description], (error, results) => {
+    const { name, surname, age, email, password, sexe, interest, description, profile_picture} = req.body
+    pool.query(queries.createUser, [name, surname, age, email, password, sexe, interest, description, profile_picture], (error, results) => {
         if (error) throw error;
         res.status(201).send("User has been successfuly created");
     })

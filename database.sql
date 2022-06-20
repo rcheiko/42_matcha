@@ -11,17 +11,17 @@ CREATE TABLE Users(
     password VARCHAR(255) NOT NULL,
     -- MATCH TABLE
     sexe VARCHAR(30) NOT NULL,
-    interest text[],
+    interest VARCHAR[],
     description TEXT,
     profile_picture VARCHAR(255),
-    other_picture text[],
+    --other_picture text[],
     -- localisation
-    score INTEGER,
+    --score INTEGER,
     -- VISITED_PROFILE
     -- LIKED_OUR_PROFILE
     -- VISITED_OUR_PROFILE
     -- Blocked
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Match(
@@ -29,7 +29,7 @@ CREATE TABLE Match(
     -- User
     -- User_2
     like BOOLEAN,
-    like_2 BOOLEAN,
+    like_2 BOOLEAN
     -- CHAT
 );
 
@@ -44,7 +44,7 @@ CREATE TABLE Chat(
 CREATE TABLE Message(
     id SERIAL PRIMARY KEY,
     -- author
-    message VARCHAR(255),
+    message VARCHAR(255)
 );
 
 

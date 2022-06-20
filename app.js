@@ -30,12 +30,27 @@ app.use(express.json());
  *    Users:
  *       type: object
  *       properties:
- *         pseudo:
+ *         name:
  *           type: string
+ *         surname:
+ *           type: string
+ *         age:
+ *           type: integer
+ *         email:
+ *           type: string
+ *           format: email
+ *         password:
+ *           type: string
+ *         sexe:
+ *           type: string
+ *         interest:
+ *           type: array
+ *           items:
+ *             $ref: '#/definitions/interest'
  *         description:
  *           type: string
- *       required:
- *          - pseudo
+ *         profile_picture:
+ *           type: string
  */
 app.use('/users/', route);
 
