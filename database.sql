@@ -14,7 +14,7 @@ CREATE TABLE Users(
     interest VARCHAR[],
     description TEXT,
     profile_picture VARCHAR(255),
-    --other_picture text[],
+    other_picture text[],
     -- localisation
     --score INTEGER,
     -- VISITED_PROFILE
