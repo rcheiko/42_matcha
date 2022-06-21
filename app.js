@@ -46,9 +46,7 @@ app.use(express.json());
  *         interest:
  *           type: array
  *           items:
- *             $ref: '#/definitions/interest'
- *         description:
- *           type: string
+ *             $ref: '#/components/schemas/Users'
  *         profile_picture:
  *           type: string
  */

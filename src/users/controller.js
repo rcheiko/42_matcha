@@ -11,7 +11,6 @@ const queries = require('./queries');
  *      responses: 
  *          200:
  *              description: success
- * 
  */
 const getUsers = (req, res) => {
     pool.query(queries.getUsers, (error, results) => {
@@ -41,10 +40,8 @@ const getUsers = (req, res) => {
  */
 const getUserById = (req, res) => {
     const id = parseInt(req.params.id)
-    console.log('ID :', id);
     if (!Number.isInteger(id)) {
         res.send("ERREUR 404 NOT INTEGER")
-        res.end()
         return;
     }
     pool.query(queries.getUserById, [id], (error, results) => {
@@ -69,19 +66,90 @@ const getUserById = (req, res) => {
  *      responses: 
  *          200:
  *              description: success
- * 
  */
 const createUsers = (req, res) => {
-    const { name, surname, age, email, password, sexe, interest, description, profile_picture} = req.body
-    pool.query(queries.createUser, [name, surname, age, email, password, sexe, interest, description, profile_picture], (error, results) => {
+    const { name, surname, age, email, password, sexe } = req.body
+    pool.query(queries.createUser, [name, surname, age, email, password, sexe], (error, results) => {
         if (error) throw error;
         res.status(201).send("User has been successfuly created");
     })
 };
 
+/**
+ * @swagger
+ * /users/edit_profile/{id}:
+ *  put:
+ *      summary: Edit the profile of User
+ *      tags: [Users]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *          required: true
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *             $ref: '#/components/schemas/Users'
+ *      responses: 
+ *          200:
+ *              description: success
+ *          400:
+ *              description: user not found
+ */
+const edit_profile = (req, res) => {
+    const id = req.params.id
+    console.log(id);
+    const { name, surname, age, email, interest, description, profile_picture, other_picture } = req.body
+    console.log(interest);
+    if (name){
+        pool.query(queries.editName, [name, id], (error, results) => {
+            if (error) throw error;
+        })
+    }
+    if (surname){
+        pool.query(queries.editSurname, [surname, id], (error, results) => {
+            if (error) throw error;
+        })
+    }
+    if (age){
+        pool.query(queries.editAge, [age, id], (error, results) => {
+            if (error) throw error;
+        })
+    }
+    if (email){
+        pool.query(queries.editEmail, [email, id], (error, results) => {
+            if (error) throw error;
+        })
+    }
+    if (interest){
+        pool.query(queries.editInterest, [interest, id], (error, results) => {
+            if (error) throw error;
+        })
+    }
+    if (description){
+        pool.query(queries.editDescription, [description, id], (error, results) => {
+            if (error) throw error;
+        })
+    }
+    if (profile_picture){
+        pool.query(queries.editProfile_picture, [profile_picture, id], (error, results) => {
+            if (error) throw error;
+        })
+    }
+    if (other_picture){
+        pool.query(queries.editOther_picture, [other_picture, id], (error, results) => {
+            if (error) throw error;
+        })
+    }
+    res.status(201).send("User has been successfuly edited");
+}
+
 module.exports = {
     getUsers,
     getUserById,
     createUsers,
-
+    edit_profile,
 };
