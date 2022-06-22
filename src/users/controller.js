@@ -173,11 +173,6 @@ const edit_profile = (req, res) => {
  *              description: success
  *          400:
  *              description: failed wrong password
-                schema: 
-                    type: string
-                default:
-                    description: Error
-
  */
 const loginUser = (req, res) => {
     const { email, password } = req.body
