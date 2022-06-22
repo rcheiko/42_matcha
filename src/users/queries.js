@@ -11,6 +11,7 @@ const editInterest = "UPDATE Users SET interest=$1 WHERE id=$2"
 const editDescription = "UPDATE Users SET description=$1 WHERE id=$2"
 const editProfile_picture = "UPDATE Users SET profile_picture=$1 WHERE id=$2"
 const editOther_picture = "UPDATE Users SET other_picture=$1 WHERE id=$2"
+const checkPassword = "SELECT password FROM Users WHERE id=$1"
 
 module.exports = {
     getUsers,
@@ -25,5 +26,6 @@ module.exports = {
     editInterest,
     editDescription,
     editProfile_picture,
-    editOther_picture
+    editOther_picture,
+    checkPassword
 };

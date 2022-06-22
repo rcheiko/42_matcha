@@ -1,5 +1,7 @@
 const pool = require('../../db');
 const queries = require('./queries');
+const bcrypt = require('bcrypt');
+const { response } = require('express');
 
 
 /**
@@ -69,7 +71,11 @@ const getUserById = (req, res) => {
  */
 const createUsers = (req, res) => {
     const { name, surname, age, email, password, sexe } = req.body
-    pool.query(queries.createUser, [name, surname, age, email, password, sexe], (error, results) => {
+    const saltRounds = 10;
+    const hash = bcrypt.hashSync(password, saltRounds);
+    // console.log('hash :', hash)
+    // console.log('compare true or false :', bcrypt.compareSync(password, hash))
+    pool.query(queries.createUser, [name, surname, age, email, hash, sexe], (error, results) => {
         if (error) throw error;
         res.status(201).send("User has been successfuly created");
     })
@@ -147,9 +153,54 @@ const edit_profile = (req, res) => {
     res.status(201).send("User has been successfuly edited");
 }
 
+/**
+ * @swagger
+ * /users/login/{id}:
+ *  post:
+ *      summary: Check Login of Users
+ *      tags: [Users]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *             type: string
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *             $ref: '#/components/schemas/Users'
+ *      responses: 
+ *          200:
+ *              description: success
+ */
+const loginUser = (req, res) => {
+    const { email, password } = req.body
+    const id = parseInt(req.params.id)
+    let response;
+    if (!Number.isInteger(id)) {
+        res.send("ERREUR 404 NOT INTEGER")
+        return;
+    }
+    pool.query(queries.checkPassword, [id], async (error, results) => {
+        if (error) throw error;
+        const passwordHash = await results.rows
+        // response = results.rows
+        // response.json()
+        response = results.rows[0]
+        console.log('res :', response)
+        response = JSON.stringify(response.password)
+        console.log('json :',response)
+        console.log(password)
+        console.log('compare true or false :', bcrypt.compareSync(response, password))    
+    })
+    res.status(201).send("User has been successfuly edited");
+};
+
 module.exports = {
     getUsers,
     getUserById,
     createUsers,
     edit_profile,
+    loginUser,
 };

@@ -1,4 +1,4 @@
-CREATE DATABASE test_matcha;
+CREATE DATABASE matcha;
 
 --/c into todo_db
 
