@@ -107,9 +107,7 @@ const createUsers = (req, res) => {
  */
 const edit_profile = (req, res) => {
     const id = req.params.id
-    console.log(id);
     const { name, surname, age, email, interest, description, profile_picture, other_picture } = req.body
-    console.log(interest);
     if (name){
         pool.query(queries.editName, [name, id], (error, results) => {
             if (error) throw error;
@@ -173,6 +171,13 @@ const edit_profile = (req, res) => {
  *      responses: 
  *          200:
  *              description: success
+ *          400:
+ *              description: failed wrong password
+                schema: 
+                    type: string
+                default:
+                    description: Error
+
  */
 const loginUser = (req, res) => {
     const { email, password } = req.body
@@ -188,13 +193,15 @@ const loginUser = (req, res) => {
         // response = results.rows
         // response.json()
         response = results.rows[0]
-        console.log('res :', response)
         response = JSON.stringify(response.password)
-        console.log('json :',response)
-        console.log(password)
-        console.log('compare true or false :', bcrypt.compareSync(response, password))    
+        response = response.slice(1, -1);
+        if (bcrypt.compareSync(password, response) == false){
+            res.status(400);
+            res.end();
+            return;
+        }
+        res.status(200).send("User has successfuly logged");
     })
-    res.status(201).send("User has been successfuly edited");
 };
 
 module.exports = {
